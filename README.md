@@ -1,17 +1,29 @@
-# flutter_web_app
+# Flutter Web App
 
-A new Flutter project.
+A small Flutter web page deployed to Cloudflare Pages through GitHub Actions.
 
-## Getting Started
+## Local development
 
-This project is a starting point for a Flutter application.
+```bash
+flutter pub get
+flutter run -d chrome
+```
 
-A few resources to get you started if this is your first Flutter project:
+Build the production site with:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter build web --release
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The deployable files are written to `build/web`.
+
+## GitHub Actions deployment
+
+The workflow in `.github/workflows/deploy.yml` runs on every push to `main` and can also be started manually. It runs the tests, builds the release site, and deploys it with Wrangler.
+
+Add these repository secrets under **Settings > Secrets and variables > Actions**:
+
+- `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to deploy Pages
+- `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID that owns the Pages project
+
+Create the Pages project once before the first workflow run, using the project name `flutter-web-app`.
