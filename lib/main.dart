@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _Header(isWide: isWide),
+                      const _Header(),
                       SizedBox(height: isWide ? 104 : 72),
                       _Hero(
                         isWide: isWide,
@@ -84,9 +84,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.isWide});
-
-  final bool isWide;
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +95,128 @@ class _Header extends StatelessWidget {
           'FIELD / NOTES',
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.4),
         ),
-        if (isWide)
-          TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.arrow_outward, size: 18),
-            label: const Text('About the project'),
+        TextButton.icon(
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute<void>(builder: (_) => const AboutPage())),
+          icon: const Icon(Icons.arrow_outward, size: 18),
+          label: const Text('About the project'),
+        ),
+      ],
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isWide = constraints.maxWidth >= 760;
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: isWide ? 72 : 24,
+                vertical: isWide ? 40 : 24,
+              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1120),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(Icons.arrow_back),
+                            tooltip: 'Back to Field Notes',
+                          ),
+                          const Spacer(),
+                          const Text(
+                            'FIELD / NOTES',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.4,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: isWide ? 104 : 72),
+                      Text(
+                        'Make room\nfor the useful things.',
+                        style: TextStyle(
+                          fontSize: isWide ? 72 : 52,
+                          height: .98,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -1.5,
+                        ),
+                      ),
+                      SizedBox(height: isWide ? 56 : 40),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 680),
+                        child: const Text(
+                          'Field Notes is a small, quiet space for the ideas that do not arrive in a straight line. It is built for collecting fragments, noticing patterns, and returning to the threads that still have something to say.',
+                          style: TextStyle(fontSize: 21, height: 1.5),
+                        ),
+                      ),
+                      const SizedBox(height: 88),
+                      _AboutPrinciples(isWide: isWide),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _AboutPrinciples extends StatelessWidget {
+  const _AboutPrinciples({required this.isWide});
+
+  final bool isWide;
+
+  @override
+  Widget build(BuildContext context) {
+    const principles = [
+      (
+        '01',
+        'Keep it human',
+        'Capture the thought before it becomes polished.',
+      ),
+      (
+        '02',
+        'Follow the thread',
+        'Let related ideas find each other over time.',
+      ),
+      (
+        '03',
+        'Leave some space',
+        'Clarity often appears after the noise has passed.',
+      ),
+    ];
+    return Flex(
+      direction: isWide ? Axis.horizontal : Axis.vertical,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final principle in principles)
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: isWide ? 28 : 0,
+                bottom: isWide ? 0 : 24,
+              ),
+              child: _Feature(
+                number: principle.$1,
+                title: principle.$2,
+                body: principle.$3,
+              ),
+            ),
           ),
       ],
     );
