@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
   runApp(const MyApp());
 }
 
@@ -63,7 +64,11 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       _Header(isWide: isWide),
                       SizedBox(height: isWide ? 104 : 72),
-                      _Hero(isWide: isWide, started: _started, onStart: _startExploring),
+                      _Hero(
+                        isWide: isWide,
+                        started: _started,
+                        onStart: _startExploring,
+                      ),
                       const SizedBox(height: 88),
                       _FeatureRow(isWide: isWide),
                     ],
@@ -104,7 +109,11 @@ class _Header extends StatelessWidget {
 }
 
 class _Hero extends StatelessWidget {
-  const _Hero({required this.isWide, required this.started, required this.onStart});
+  const _Hero({
+    required this.isWide,
+    required this.started,
+    required this.onStart,
+  });
 
   final bool isWide;
   final bool started;
@@ -146,7 +155,10 @@ class _Hero extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xffe87542),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 16,
+                  ),
                 ),
               ),
             ],
@@ -175,8 +187,15 @@ class _FeatureRow extends StatelessWidget {
         for (final feature in features)
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: isWide ? 28 : 0, bottom: isWide ? 0 : 24),
-              child: _Feature(number: feature.$1, title: feature.$2, body: feature.$3),
+              padding: EdgeInsets.only(
+                right: isWide ? 28 : 0,
+                bottom: isWide ? 0 : 24,
+              ),
+              child: _Feature(
+                number: feature.$1,
+                title: feature.$2,
+                body: feature.$3,
+              ),
             ),
           ),
       ],
@@ -185,7 +204,11 @@ class _FeatureRow extends StatelessWidget {
 }
 
 class _Feature extends StatelessWidget {
-  const _Feature({required this.number, required this.title, required this.body});
+  const _Feature({
+    required this.number,
+    required this.title,
+    required this.body,
+  });
 
   final String number;
   final String title;
@@ -203,9 +226,19 @@ class _Feature extends StatelessWidget {
         children: [
           Text(number, style: const TextStyle(color: Color(0xffe87542))),
           const SizedBox(height: 18),
-          Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
-          Text(body, style: const TextStyle(fontSize: 16, height: 1.4, color: Color(0xff687177))),
+          Text(
+            body,
+            style: const TextStyle(
+              fontSize: 16,
+              height: 1.4,
+              color: Color(0xff687177),
+            ),
+          ),
         ],
       ),
     );
